@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GS7 – Unit 6 – Luyện tập tuần 19/10</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--sub:#5b6270;--line:#e1e4ec;--brand:#3d5af1;--good:#16794d;--good-bg:#e6f6ed;--bad:#b3262d;--bad-bg:#fdeaea;--gold:#f5a623}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:18px;padding:20px 14px 90px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-size:1.45rem;margin:0 0 4px}
+.sub{color:var(--sub);font-size:.95rem;margin:0 0 14px}
+.hud{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 10px}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--brand);width:0;transition:width .25s}
+.hudrow{display:flex;justify-content:space-between;font-size:.9rem;color:var(--sub);margin-top:5px;gap:8px;flex-wrap:wrap}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.badge{font-size:.8rem;padding:3px 9px;border-radius:99px;background:#eceef5;color:#8a90a0;border:1px solid var(--line)}
+.badge.on{background:#fff4d9;color:#7a5200;border-color:var(--gold);font-weight:700}
+.info{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-wrap:wrap;gap:10px 14px;margin-bottom:16px}
+.info label{display:flex;flex-direction:column;font-size:.85rem;color:var(--sub);gap:4px;flex:1 1 170px}
+.info input{border:1.5px solid var(--line);border-radius:10px;padding:10px;font-size:1rem;font-family:inherit}
+.info input.miss{border-color:var(--bad)}
+section.lv{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;margin-bottom:18px}
+section.lv h2{font-size:1.1rem;margin:0 0 2px}
+.desc{color:var(--sub);font-size:.92rem;margin:0 0 10px}
+.passage{background:#f1f4ff;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:8px 0 6px;font-size:1rem}
+.q{border-top:1px solid var(--line);padding:14px 0}
+.q:first-of-type{border-top:none}
+.qt{margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.btn{border:1.5px solid var(--line);background:#fff;color:var(--ink);padding:11px 14px;border-radius:10px;font-size:1rem;text-align:left;cursor:pointer;font-family:inherit}
+.btn:hover{border-color:var(--brand)}
+.btn.sel{border-color:var(--brand);background:#eef1ff;font-weight:600}
+.btn.ok{border-color:var(--good);background:var(--good-bg);color:var(--good);font-weight:700}
+.btn.no{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);font-weight:700}
+input.txt{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font-size:1rem;font-family:inherit}
+input.txt:focus{outline:none;border-color:var(--brand)}
+.fb{display:none;margin-top:8px;padding:9px 12px;border-radius:8px;font-size:.92rem}
+.fb.show{display:block}.fb.good{background:var(--good-bg);color:var(--good)}.fb.bad{background:var(--bad-bg);color:var(--bad)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+button.p{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:13px 22px;font-size:1rem;font-weight:700;cursor:pointer}
+button.p:disabled{opacity:.55;cursor:not-allowed}
+button.s{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:13px 22px;font-size:1rem;font-weight:700;cursor:pointer}
+#err{color:var(--bad);font-weight:600;margin-top:8px;display:none}
+#res{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center;margin-top:18px}
+#res.show{display:block}
+.big{font-size:2.3rem;font-weight:800;color:var(--brand)}
+.rank{font-size:1.2rem;font-weight:800;margin:6px 0}
+#st{font-weight:600;font-size:.9rem;margin-top:8px}
+#st.ok{color:var(--good)}#st.err{color:var(--bad)}
+#prac{display:none;margin-top:18px}
+#prac.show{display:block}
+u{text-decoration:underline;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>GS7 – Unit 6 – Luyện tập tuần 19/10</h1>
+<p class="sub">A Visit to a School · Tham quan trường học · 35 câu · khoảng 25–30 phút. Mỗi câu đúng +10 XP, đúng 3 câu liền → Combo x2, BOSS +20 XP/câu.</p>
+<div class="info">
+<label>Trường (không bắt buộc)<input id="stuSchool" type="text" placeholder="Tên trường" autocomplete="off"></label>
+<label>Lớp *<input id="stuClass" type="text" placeholder="VD: 7A1" autocomplete="off"></label>
+<label>Họ và tên *<input id="stuName" type="text" placeholder="Họ và tên" autocomplete="off"></label>
+</div>
+<div class="hud">
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div class="hudrow"><span id="plabel">Đã trả lời: 0/35</span><span id="xplabel">XP: 0</span></div>
+<div class="badges" id="badges"></div>
+</div>
+<div id="root"></div>
+<div class="row"><button class="p" id="submitBtn">Nộp bài</button><button class="s" id="resetBtn">Làm lại từ đầu</button></div>
+<div id="err"></div>
+<div id="res">
+<div>Điểm của em (thang 10)</div>
+<div class="big" id="score10"></div>
+<div id="cnt"></div>
+<div class="rank" id="rank"></div>
+<div id="xpres"></div>
+<div id="st"></div>
+<div class="row" style="justify-content:center"><button class="s" id="pracBtn">Luyện lại câu sai</button></div>
+<p class="sub" id="pracNote" style="display:none">Phần luyện lại chỉ để ôn tập, không gửi lại điểm.</p>
+</div>
+<div id="prac"></div>
+</div>
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycby08od-VjK63bcLdiXGBgjz9imiBImjbBBKmjHqN1AnzfpBhEjFyItSniMfbPKm9TA/exec";
+const CLASS_LABEL="GS7";
+const TEST_NAME="Unit 6 - A Visit to a School - Luyen tap tuan 1910";
+const CFG={"unit": 6, "title": "A Visit to a School", "sound": "/tʃ/ và /dʒ/", "passage": "Tran Phu Secondary School is a modern school in Hue. It has a big library, a science laboratory and a swimming pool. The school was founded in 1985. There is a school garden behind the gym, and students grow vegetables there on Wednesday afternoons. Every year, the school holds a sports festival in October, and many parents come to watch.", "levels": [{"key": "L1", "name": "LEVEL 1 – Khởi động", "desc": "Chọn nghĩa tiếng Việt đúng của từ.", "badge": "⭐ Từ vựng"}, {"key": "L2", "name": "LEVEL 2 – Phát âm", "desc": "Chọn đáp án đúng về phát âm và trọng âm.", "badge": "🔊 Phát âm"}, {"key": "L3", "name": "LEVEL 3 – Từ vựng & ngữ pháp", "desc": "Chọn đáp án đúng A, B, C hoặc D.", "badge": "🧠 Ngữ pháp"}, {"key": "L4", "name": "LEVEL 4 – Word form", "desc": "Viết dạng đúng của từ trong ngoặc.", "badge": "🔧 Word form"}, {"key": "L5", "name": "LEVEL 5 – Đồng nghĩa / Trái nghĩa", "desc": "Hai câu đầu: đồng nghĩa. Hai câu sau: trái nghĩa (từ gạch chân).", "badge": "🔁 Từ nghĩa"}, {"key": "L6", "name": "LEVEL 6 – Tìm lỗi sai", "desc": "Chọn phần (A, B, C hoặc D) có lỗi sai.", "badge": "🔍 Thám tử"}, {"key": "L7", "name": "LEVEL 7 – Viết lại câu", "desc": "Viết lại câu theo gợi ý, giữ nguyên nghĩa.", "badge": "✍️ Viết câu"}, {"key": "B", "name": "BOSS LEVEL – Đọc hiểu (+20 XP/câu)", "desc": "Đọc đoạn văn rồi trả lời.", "badge": "🏆 Boss"}], "qs": [{"t": "mc", "q": "<b>projector</b> nghĩa là gì?", "o": ["máy ảnh", "máy tính", "máy chiếu", "bảng đen"], "a": 2, "e": "projector = máy chiếu.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>swimming pool</b> nghĩa là gì?", "o": ["phòng thí nghiệm", "bể bơi", "sân chơi", "nhà thi đấu"], "a": 1, "e": "swimming pool = bể bơi.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>talented</b> nghĩa là gì?", "o": ["tài năng", "hiện đại", "chăm chỉ", "nổi tiếng"], "a": 0, "e": "talented = tài năng.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>encourage</b> nghĩa là gì?", "o": ["tham gia", "thành lập", "tổ chức", "khuyến khích"], "a": 3, "e": "encourage = khuyến khích.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>equipment</b> nghĩa là gì?", "o": ["dự án", "đoạn văn", "thiết bị", "thời khóa biểu"], "a": 2, "e": "equipment = thiết bị.", "lv": 0, "xp": 10}, {"t": "mc", "q": "Chọn từ có phần gạch chân phát âm KHÁC:", "o": ["pro<u>j</u>ect", "<u>ch</u>air", "wat<u>ch</u>", "tea<u>ch</u>er"], "a": 0, "e": "project đọc /dʒ/; các từ còn lại đọc /tʃ/.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Chọn từ có phần gạch chân phát âm KHÁC:", "o": ["<u>j</u>oin", "intelli<u>g</u>ent", "<u>g</u>ym", "<u>ch</u>ild"], "a": 3, "e": "child đọc /tʃ/; các từ còn lại đọc /dʒ/.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Chọn từ có trọng âm chính KHÁC:", "o": ["talented", "encourage", "gifted", "famous"], "a": 1, "e": "encourage nhấn âm 2; các từ còn lại nhấn âm 1.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Chọn từ có trọng âm chính KHÁC:", "o": ["equipment", "library", "classroom", "timetable"], "a": 0, "e": "equipment nhấn âm 2; các từ còn lại nhấn âm 1.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Our school was founded ___ 1990.", "o": ["in", "on", "at", "by"], "a": 0, "e": "in + năm.", "lv": 2, "xp": 10}, {"t": "mc", "q": "The English club meets ___ Wednesday afternoons.", "o": ["in", "to", "on", "at"], "a": 2, "e": "on + thứ trong tuần.", "lv": 2, "xp": 10}, {"t": "mc", "q": "We have a school trip ___ December.", "o": ["in", "on", "of", "at"], "a": 0, "e": "in + tháng.", "lv": 2, "xp": 10}, {"t": "mc", "q": "There is a big tree ___ front of our classroom.", "o": ["at", "on", "to", "in"], "a": 3, "e": "in front of = ở phía trước.", "lv": 2, "xp": 10}, {"t": "mc", "q": "The bookshop is ___ our school, on the other side of the street.", "o": ["opposite", "under", "behind", "between"], "a": 0, "e": "opposite = đối diện.", "lv": 2, "xp": 10}, {"t": "mc", "q": "We have lunch ___ noon at the canteen.", "o": ["at", "by", "on", "in"], "a": 0, "e": "at noon = vào buổi trưa.", "lv": 2, "xp": 10}, {"t": "mc", "q": "We use a ___ in class to show pictures on the wall.", "o": ["library", "timetable", "paragraph", "projector"], "a": 3, "e": "projector = máy chiếu.", "lv": 2, "xp": 10}, {"t": "mc", "q": "She is very ___. She learns everything quickly and gets good marks.", "o": ["modern", "intelligent", "private", "royal"], "a": 1, "e": "intelligent = thông minh.", "lv": 2, "xp": 10}, {"t": "mc", "q": "Our teachers always ___ us to speak English in class.", "o": ["found", "encourage", "grow", "celebrate"], "a": 1, "e": "encourage = khuyến khích.", "lv": 2, "xp": 10}, {"t": "mc", "q": "Students take part in outdoor ___ like football and cycling after school.", "o": ["resources", "activities", "projectors", "paragraphs"], "a": 1, "e": "outdoor activities = hoạt động ngoài trời.", "lv": 2, "xp": 10}, {"t": "fill", "q": "She is a ___ singer. Everyone loves her voice. (talent)", "a": ["talented"], "e": "talent → talented (adj).", "lv": 3, "xp": 10}, {"t": "fill", "q": "The school garden is very ___. (beauty)", "a": ["beautiful"], "e": "beauty → beautiful (adj).", "lv": 3, "xp": 10}, {"t": "fill", "q": "The school's ___ was held on 20 November. (celebrate)", "a": ["celebration"], "e": "celebrate → celebration (n).", "lv": 3, "xp": 10}, {"t": "fill", "q": "The school needs new ___ for the laboratory. (equip)", "a": ["equipment"], "e": "equip → equipment (n).", "lv": 3, "xp": 10}, {"t": "mc", "q": "She is a <u>talented</u> student. (Đồng nghĩa)", "o": ["gifted", "tired", "shy", "lazy"], "a": 0, "e": "talented ≈ gifted.", "lv": 4, "xp": 10}, {"t": "mc", "q": "Her school is <u>well-known</u>. (Đồng nghĩa)", "o": ["famous", "private", "empty", "tiny"], "a": 0, "e": "well-known ≈ famous.", "lv": 4, "xp": 10}, {"t": "mc", "q": "This is a <u>modern</u> school. (Trái nghĩa)", "o": ["famous", "old", "clean", "big"], "a": 1, "e": "modern ≠ old.", "lv": 4, "xp": 10}, {"t": "mc", "q": "He is a <u>hard-working</u> student. (Trái nghĩa)", "o": ["kind", "tall", "lazy", "quiet"], "a": 2, "e": "hard-working ≠ lazy.", "lv": 4, "xp": 10}, {"t": "err", "q": "<b>(A) The festival (B) is (C) at (D) October.</b>", "o": ["The festival", "is", "at", "October"], "a": 2, "e": "in + tháng: in October.", "lv": 5, "xp": 10}, {"t": "err", "q": "Our English lessons are <b>(A) at (B) Monday (C) and (D) Thursday.</b>", "o": ["at", "Monday", "and", "Thursday"], "a": 0, "e": "on + thứ: on Monday.", "lv": 5, "xp": 10}, {"t": "err", "q": "The library is <b>(A) between (B) the gym (C) with (D) the classroom.</b>", "o": ["between", "the gym", "with", "the classroom"], "a": 2, "e": "between A and B.", "lv": 5, "xp": 10}, {"t": "rw", "q": "The gym is behind the library. → <b>The library is ...</b>", "a": ["The library is in front of the gym"], "e": "behind ↔ in front of.", "lv": 6, "xp": 10}, {"t": "rw", "q": "Our school was founded <u>in 1995</u>. → <b>When ...?</b>", "a": ["When was your school founded", "When was our school founded"], "e": "When + was + S + founded?", "lv": 6, "xp": 10}, {"t": "rw", "q": "The classroom is <u>on the second floor</u>. → <b>Where ...?</b>", "a": ["Where is the classroom"], "e": "Where + is + S?", "lv": 6, "xp": 10}, {"t": "tf", "q": "The school garden is in front of the gym.", "o": ["True", "False"], "a": 1, "e": "Vườn trường ở phía sau phòng tập (behind the gym).", "lv": 7, "xp": 20}, {"t": "mc", "q": "When do students grow vegetables?", "o": ["At 9.30 a.m.", "On Fridays.", "In October.", "On Wednesday afternoons."], "a": 3, "e": "Đoạn văn: students grow vegetables there on Wednesday afternoons.", "lv": 7, "xp": 20}]};
+const QS=CFG.qs, LV=CFG.levels;
+const ans=Array(QS.length).fill(null);
+let submitted=false, sent=false;
+function norm(s){return (s||"").toString().toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?,;:"']/g,"").replace(/\s+/g," ").trim();}
+function isRight(q,v){
+  if(v===null||v==="")return false;
+  if(q.t==="fill"||q.t==="rw"){const n=norm(v);return q.a.some(x=>norm(x)===n);}
+  return v===q.a;
+}
+function rightText(q){return q.t==="fill"||q.t==="rw"?q.a[0]:(q.t==="err"?"("+"ABCD"[q.a]+") "+q.o[q.a].replace(/<[^>]+>/g,""):q.o[q.a].replace(/<[^>]+>/g,""));}
+function qHtml(q,i,n){
+  let h='<div class="q" id="q'+i+'"><div class="qt"><b>'+n+'.</b> '+q.q+'</div>';
+  if(q.t==="fill"||q.t==="rw") h+='<input class="txt" type="text" data-i="'+i+'" autocomplete="off" autocapitalize="off" placeholder="'+(q.t==="rw"?"Viết cả câu ở đây…":"Viết đáp án…")+'">';
+  else{h+='<div class="opts">';q.o.forEach((o,k)=>{h+='<button type="button" class="btn" data-i="'+i+'" data-k="'+k+'">'+(q.t==="err"?"ABCD"[k]+". ":(q.t==="tf"?"":"ABCD"[k]+". "))+o+'</button>';});h+='</div>';}
+  return h+'<div class="fb" id="fb'+i+'"></div></div>';
+}
+const root=document.getElementById("root");
+let num=0;
+LV.forEach((L,li)=>{
+  const sec=document.createElement("section");sec.className="lv";
+  let h='<h2>'+L.name+'</h2><p class="desc">'+L.desc+(li===1?" Cặp âm: "+CFG.sound+".":"")+'</p>';
+  if(L.key==="B")h+='<div class="passage">'+CFG.passage+'</div>';
+  QS.forEach((q,i)=>{if(q.lv===li){num++;h+=qHtml(q,i,num);}});
+  sec.innerHTML=h;root.appendChild(sec);
+});
+const bd=document.getElementById("badges");
+LV.forEach(L=>{const s=document.createElement("span");s.className="badge";s.textContent=L.badge;s.id="b_"+L.key;bd.appendChild(s);});
+function progress(){
+  const a=ans.filter(v=>v!==null&&v!=="").length;
+  document.getElementById("fill").style.width=(a/QS.length*100)+"%";
+  document.getElementById("plabel").textContent="Đã trả lời: "+a+"/"+QS.length;
+  LV.forEach((L,li)=>{const idx=QS.map((q,i)=>q.lv===li?i:-1).filter(i=>i>=0);
+    document.getElementById("b_"+L.key).classList.toggle("on",idx.every(i=>ans[i]!==null&&ans[i]!==""));});
+}
+root.addEventListener("click",e=>{
+  const b=e.target.closest(".btn");if(!b||submitted)return;
+  const i=+b.dataset.i,k=+b.dataset.k;
+  b.parentNode.querySelectorAll(".btn").forEach(x=>x.classList.remove("sel"));
+  b.classList.add("sel");ans[i]=k;progress();
+});
+root.addEventListener("input",e=>{
+  const t=e.target;if(!t.classList.contains("txt")||submitted)return;
+  ans[+t.dataset.i]=t.value.trim();progress();
+});
+function sendResult(p){
+  const st=document.getElementById("st");
+  st.className="";st.textContent="Đang gửi kết quả…";
+  fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)})
+  .then(()=>{st.className="ok";st.textContent="Đã gửi kết quả về hệ thống.";})
+  .catch(er=>{st.className="err";st.textContent="Gửi thất bại (kiểm tra mạng): "+er.message;sent=false;});
+}
+document.getElementById("submitBtn").addEventListener("click",()=>{
+  if(submitted)return;
+  const nm=document.getElementById("stuName"),cl=document.getElementById("stuClass"),sc=document.getElementById("stuSchool");
+  nm.classList.remove("miss");cl.classList.remove("miss");
+  const er=document.getElementById("err");
+  if(!nm.value.trim()||!cl.value.trim()){
+    if(!nm.value.trim())nm.classList.add("miss");if(!cl.value.trim())cl.classList.add("miss");
+    er.style.display="block";er.textContent="Em hãy điền Họ và tên và Lớp trước khi nộp bài nhé.";
+    window.scrollTo({top:0,behavior:"smooth"});return;
+  }
+  er.style.display="none";submitted=true;
+  let correct=0,xp=0,streak=0;
+  QS.forEach((q,i)=>{
+    const ok=isRight(q,ans[i]);const fb=document.getElementById("fb"+i);
+    if(ok){correct++;const mult=streak>=3?2:1;xp+=q.xp*mult;streak++;fb.className="fb show good";fb.textContent="✓ Chính xác!"+(mult===2?" Combo x2!":"");}
+    else{streak=0;fb.className="fb show bad";fb.innerHTML="✗ Đáp án đúng: <b>"+rightText(q)+"</b>. "+q.e;}
+    const box=document.getElementById("q"+i);
+    if(q.t==="fill"||q.t==="rw"){box.querySelector("input").disabled=true;}
+    else box.querySelectorAll(".btn").forEach((b,k)=>{b.disabled=true;b.classList.remove("sel");if(k===q.a)b.classList.add("ok");else if(k===ans[i])b.classList.add("no");});
+  });
+  const total=QS.length,s10=(correct/total*10).toFixed(1),pct=correct/total*100;
+  document.getElementById("score10").textContent=s10+"/10";
+  document.getElementById("cnt").textContent="Đúng "+correct+"/"+total+" câu";
+  document.getElementById("rank").textContent=pct>=90?"🌟 Siêu sao Unit "+CFG.unit:(pct>=70?"⚔️ Chiến binh":"💪 Cố lên – làm lại để lên hạng");
+  document.getElementById("xpres").textContent="XP thưởng: "+xp;
+  document.getElementById("xplabel").textContent="XP: "+xp;
+  const r=document.getElementById("res");r.classList.add("show");
+  document.getElementById("submitBtn").disabled=true;
+  r.scrollIntoView({behavior:"smooth",block:"center"});
+  if(!sent){sent=true;sendResult({className:CLASS_LABEL,testName:TEST_NAME,school:sc.value.trim(),studentClass:cl.value.trim(),name:nm.value.trim(),correct:correct,total:total,score10:s10,timestamp:new Date().toISOString()});}
+});
+document.getElementById("resetBtn").addEventListener("click",()=>location.reload());
+/* Luyện lại câu sai (không gửi điểm) */
+document.getElementById("pracBtn").addEventListener("click",()=>{
+  const wrong=QS.map((q,i)=>isRight(q,ans[i])?-1:i).filter(i=>i>=0);
+  const p=document.getElementById("prac");document.getElementById("pracNote").style.display="block";
+  if(!wrong.length){p.innerHTML='<section class="lv"><h2>🎉 Em không sai câu nào!</h2></section>';p.className="show";return;}
+  let h='<section class="lv"><h2>Luyện lại câu sai ('+wrong.length+' câu)</h2><p class="desc">Chỉ để luyện tập, điểm không được gửi lại.</p>';
+  wrong.forEach((i,n)=>{const q=QS[i];
+    h+='<div class="q" data-p="'+i+'"><div class="qt"><b>'+(n+1)+'.</b> '+q.q+'</div>';
+    if(q.t==="fill"||q.t==="rw")h+='<input class="txt" type="text" autocomplete="off" autocapitalize="off"><div class="row"><button class="s chk" type="button">Kiểm tra</button></div>';
+    else{h+='<div class="opts">';q.o.forEach((o,k)=>{h+='<button type="button" class="btn pb" data-k="'+k+'">'+(q.t==="tf"?"":"ABCD"[k]+". ")+o+'</button>';});h+='</div>';}
+    h+='<div class="fb"></div></div>';});
+  p.innerHTML=h+'</section>';p.className="show";p.scrollIntoView({behavior:"smooth"});
+  p.addEventListener("click",e=>{
+    const box=e.target.closest("[data-p]");if(!box)return;const q=QS[+box.dataset.p],fb=box.querySelector(".fb");
+    const b=e.target.closest(".pb");
+    if(b){const k=+b.dataset.k,ok=k===q.a;
+      box.querySelectorAll(".pb").forEach((x,j)=>{x.classList.remove("ok","no");if(j===q.a)x.classList.add("ok");else if(j===k)x.classList.add("no");});
+      fb.className="fb show "+(ok?"good":"bad");fb.innerHTML=ok?"✓ Đúng rồi!":"✗ Chưa đúng. Đáp án: <b>"+rightText(q)+"</b>. "+q.e;}
+    if(e.target.classList.contains("chk")){const v=box.querySelector("input").value,ok=isRight(q,v);
+      fb.className="fb show "+(ok?"good":"bad");fb.innerHTML=ok?"✓ Đúng rồi!":"✗ Chưa đúng. Đáp án: <b>"+rightText(q)+"</b>. "+q.e;}
+  });
+});
+progress();
+</script>
+</body>
+</html>
